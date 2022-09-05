@@ -26,7 +26,10 @@ jobs:
       - name: Source tests
         uses: "ros-industrial/industrial_ci@master"
         env:
-          DOWNSTREAM_WORKSPACE: "github:LeoRover/leo_desktop-ros2#humble github:LeoRover/leo_desktop-ros2#humble"
+          DOWNSTREAM_WORKSPACE: "github:fictionlab/leo2_desktop#humble github:fictionlab/leo2_robot#humble"
+          ADDITIONAL_DEBS: git-core
+          AFTER_INIT: git config --global url."https://token:${{secrets.GITHUBPAT}}@github.com/".insteadOf "https://github.com/"
+
 
   ament_lint:
     name: ament_${{ matrix.linter }}
@@ -44,10 +47,9 @@ jobs:
           required-ros-distributions: ${{ env.ROS_DISTRO }}
       - uses: ros-tooling/action-ros-lint@v0.1
         with:
-          distribution: humble
+          distribution: ${{ env.ROS_DISTRO }}
           linter: ${{ matrix.linter }}
           package-name: |
-            leo
-            leo_description
-            leo_msgs
-            leo_teleop
+            leo2
+            leo2_description
+            leo2_teleop
