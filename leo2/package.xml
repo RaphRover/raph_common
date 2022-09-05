@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>leo</name>
+  <name>leo2</name>
   <version>1.1.0</version>
   <description>
     Metapackage of software for Leo Rover common to the robot and ROS desktop
@@ -17,9 +17,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>leo_description</exec_depend>
-  <exec_depend>leo_msgs</exec_depend>
-  <exec_depend>leo_teleop</exec_depend>
+  <exec_depend>leo2_description</exec_depend>
+  <exec_depend>leo2_teleop</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

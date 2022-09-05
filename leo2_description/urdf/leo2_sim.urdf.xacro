@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro"
-       name="leo_sim">
+       name="leo2_sim">
 
   <xacro:arg name="fixed" default="false"/>
   <xacro:arg name="robot_ns" default=""/>
 
-  <xacro:include filename="$(find leo_description)/urdf/macros.xacro"/>
+  <xacro:include filename="$(find leo2_description)/urdf/macros.xacro"/>
 
-  <xacro:leo_sim robot_ns="$(arg robot_ns)"
+  <xacro:leo2_sim robot_ns="$(arg robot_ns)"
                  fixed="$(arg fixed)"/>
 
 </robot>

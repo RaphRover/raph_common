@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="leo" 
+  <xacro:macro name="leo2" 
                params="default_antenna:=true
                        rockers_fixed:=true
                        footprint_link:=true
@@ -21,12 +21,12 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="package://leo_description/models/Rocker.dae"/>
+            <mesh filename="package://leo2_description/models/Rocker.dae"/>
           </geometry>
         </visual>
         <collision>
           <geometry>
-            <mesh filename="package://leo_description/models/Rocker_outline.stl"/>
+            <mesh filename="package://leo2_description/models/Rocker_outline.stl"/>
           </geometry>
         </collision>
       </link>
@@ -44,7 +44,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="package://leo_description/models/Wheel${model}.dae"/>
+            <mesh filename="package://leo2_description/models/Wheel${model}.dae"/>
           </geometry>
         </visual>
         <collision>
@@ -61,7 +61,7 @@
         </collision>
         <collision>
           <geometry>
-            <mesh filename="package://leo_description/models/Wheel_outline.stl"/>
+            <mesh filename="package://leo2_description/models/Wheel_outline.stl"/>
           </geometry>
         </collision>
       </link>
@@ -83,12 +83,12 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="package://leo_description/models/Chassis.dae"/>
+          <mesh filename="package://leo2_description/models/Chassis.dae"/>
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://leo_description/models/Chassis_outline.stl"/>
+          <mesh filename="package://leo2_description/models/Chassis_outline.stl"/>
         </geometry>
       </collision>
     </link>
@@ -112,7 +112,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="package://leo_description/models/Antenna.dae"/>
+            <mesh filename="package://leo2_description/models/Antenna.dae"/>
           </geometry>
         </visual>
         <collision>
@@ -230,7 +230,7 @@
 
   <!-- LEO GAZEBO -->
 
-  <xacro:macro name="leo_gazebo"
+  <xacro:macro name="leo2_gazebo"
                params="robot_ns:=''">
 
     <xacro:property name="link_prefix" value=""/>
@@ -421,13 +421,13 @@
       <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
         <robot_param>robot_description</robot_param>
         <robot_param_node>robot_state_publisher</robot_param_node>
-        <parameters>package://leo_description/config/controllers.yaml</parameters>
+        <parameters>package://leo2_description/config/controllers.yaml</parameters>
       </plugin>
     </gazebo>
 
   </xacro:macro>
 
-  <xacro:macro name="leo_sim" 
+  <xacro:macro name="leo2_sim" 
                params="default_antenna:=true 
                        fixed:=false
                        robot_ns:=''">
@@ -437,11 +437,11 @@
       <xacro:property name="link_prefix" value="${robot_ns}/"/>
     </xacro:if>
 
-    <xacro:leo default_antenna="${default_antenna}"
+    <xacro:leo2 default_antenna="${default_antenna}"
                rockers_fixed="false"
                link_prefix="${link_prefix}"/>
 
-    <xacro:leo_gazebo robot_ns="${robot_ns}"/>
+    <xacro:leo2_gazebo robot_ns="${robot_ns}"/>
 
     <xacro:if value="${fixed}">
       <link name="world"/>

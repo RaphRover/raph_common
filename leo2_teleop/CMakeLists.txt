@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(leo_teleop)
+project(leo2_teleop)
 
 find_package(ament_cmake REQUIRED)
 

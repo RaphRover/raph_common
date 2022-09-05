@@ -3,7 +3,7 @@
   <arg name="cmd_vel_out" default="cmd_vel"
     description="Topic to send velocity commands on" />
   <arg name="joy_config_file"
-    default="$(find-pkg-share leo_teleop)/config/joy_config.yaml"
+    default="$(find-pkg-share leo2_teleop)/config/joy_config.yaml"
     description="Path to the yaml file with parameters for joy_teleop_node" />
 
   <node pkg="joy" exec="joy_node">
