@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <xacro:include filename="$(find leo2_description)/urdf/include/zed_macro.xacro"/>
+
   <xacro:macro name="leo2" 
                params="default_antenna:=true
                        rockers_fixed:=true
@@ -8,6 +10,10 @@
                        link_prefix:=''
                        joint_prefix:=''
                        imu_translation:='0.0628 -0.0314 -0.0393'">
+
+    <xacro:zed_camera name="${link_prefix}zed2i" model="zed2i" parent="${link_prefix}base_link">
+      <origin xyz="0.151138 0.0 0.019725" rpy="0 0.0872664626 0" />
+    </xacro:zed_camera>
 
     <xacro:macro name="rocker_link" params="name">
       <link name="${link_prefix}rocker_${name}_link">
