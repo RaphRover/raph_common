@@ -34,7 +34,7 @@ jobs:
     name: ament_${{ matrix.linter }}
     runs-on: ubuntu-20.04
     container:
-      image: ros:${{ env.ROS_DISTRO }}
+      image: ros:foxy
     strategy:
       fail-fast: false
       matrix:
