@@ -5,5 +5,5 @@
   <xacro:include filename="$(find leo2_description)/urdf/macros.xacro"/>
 
   <xacro:leo2/>
-
+  
 </robot>
