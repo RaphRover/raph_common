@@ -1,7 +1,7 @@
-joy_teleop_node:
+leo2_teleop:
   ros__parameters:
-    axis_linear.x: 1
-    scale_linear.x: 0.4
-    axis_angular.yaw: 3
-    scale_angular.yaw: 1.0
-    enable_button: 5
+    axis_speed: 1
+    scale_speed: 1.5
+    axis_steer: 3
+    scale_steer: 1.1
+    button_deadman: 5
