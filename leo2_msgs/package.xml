@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>leo2</name>
+  <name>leo2_msgs</name>
   <version>1.1.0</version>
   <description>
-    Metapackage of software for Leo Rover common to the robot and ROS desktop
+    Message definitions for Leo Rover
   </description>
 
   <maintainer email="support@fictionlab.pl">Fictionlab</maintainer>
-  <author email="blazej@fictionlab.pl">Błażej Sowa</author>
+  <author email="piotr@fictionlab.pl">Piotr Szlachcic</author>
 
   <license>MIT</license>
 
@@ -17,12 +17,16 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>leo2_description</exec_depend>
-  <exec_depend>leo2_teleop</exec_depend>
-  <exec_depend>leo2_mags</exec_depend>
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <build_depend>builtin_interfaces</build_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
-    <architecture_independent/>
   </export>
+
 </package>
