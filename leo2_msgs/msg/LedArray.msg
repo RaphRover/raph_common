@@ -1,4 +1,4 @@
-# This message represents the array of led statuses
+# This message represents the array of led state
 
 std_msgs/Header header
-leo2_msgs/LedStatus[100] led_arr
+leo2_msgs/LedState[100] led_arr
