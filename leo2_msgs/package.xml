@@ -25,6 +25,12 @@
   <build_depend>std_msgs</build_depend>
   <exec_depend>std_msgs</exec_depend>
 
+  <build_depend>builtin_interfaces</build_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+
+  <build_depend>builtin_interfaces</build_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
