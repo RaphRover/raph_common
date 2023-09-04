@@ -1,14 +1,10 @@
-# This message represents the led state
+# This message represents the state of a single LED
 
-# The priority field represent the prioryty of given state
-# The time field represent the duration time of given state (s)
+# The duration (in ms) the state should be active
+uint16 duration
 
-builtin_interfaces/Time duration
+# The priority of the state. The state with the highest priority is displayed
 uint8 priority
 
-# The red, green, blue, white fields represent the intensivity of each colour (%)
-
-uint8 red
-uint8 green
-uint8 blue
-uint8 white
+# The color of the LED
+leo2_msgs/LedColor color
