@@ -1,0 +1,7 @@
+rapha_teleop:
+  ros__parameters:
+    axis_speed: 1
+    scale_speed: 1.5
+    axis_steer: 3
+    scale_steer: 1.1
+    button_deadman: 5

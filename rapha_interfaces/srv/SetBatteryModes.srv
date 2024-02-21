@@ -1,0 +1,5 @@
+rapha_interfaces/BatteryMode bat1_mode
+rapha_interfaces/BatteryMode bat2_mode
+---
+bool success
+string status_message
