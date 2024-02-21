@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>leo2_msgs</name>
+  <name>leo2_interfaces</name>
   <version>1.1.0</version>
   <description>
     Message definitions for Leo Rover

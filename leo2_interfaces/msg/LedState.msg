@@ -7,4 +7,4 @@ uint16 duration
 uint8 priority
 
 # The color of the LED
-leo2_msgs/LedColor color
+leo2_interfaces/LedColor color

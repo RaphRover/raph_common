@@ -19,7 +19,7 @@
 
   <exec_depend>leo2_description</exec_depend>
   <exec_depend>leo2_teleop</exec_depend>
-  <exec_depend>leo2_msgs</exec_depend>
+  <exec_depend>leo2_interfaces</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
