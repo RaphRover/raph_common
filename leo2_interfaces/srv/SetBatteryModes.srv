@@ -1,5 +1,0 @@
-leo2_interfaces/BatteryMode bat1_mode
-leo2_interfaces/BatteryMode bat2_mode
----
-bool success
-string status_message
