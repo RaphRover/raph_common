@@ -8,13 +8,16 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/BatteryMode.msg"
   "msg/BatteryState.msg"
-  "msg/LedArray.msg"
+  "msg/Led.msg"
   "msg/LedColor.msg"
+  "msg/LedPanel.msg"
+  "msg/LedPanelState.msg"
   "msg/LedState.msg"
+  "msg/LedStripState.msg"
   "msg/PowerSystemState.msg"
   "msg/SteeringMode.msg"
   "srv/SetBatteryModes.srv"
-  "srv/SetLedState.srv"
+  "srv/SetLeds.srv"
   "srv/SetSteeringMode.srv"
   DEPENDENCIES std_msgs
 )
