@@ -14,6 +14,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/LedPanelState.msg"
   "msg/LedState.msg"
   "msg/LedStripState.msg"
+  "msg/MotorDiagnostics.msg"
   "msg/PowerSystemState.msg"
   "msg/SteeringMode.msg"
   "srv/SetBatteryModes.srv"
