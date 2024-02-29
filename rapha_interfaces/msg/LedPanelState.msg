@@ -4,4 +4,4 @@
 rapha_interfaces/LedPanel panel
 
 # 
-rapha_interfaces/LedState[33] states
+rapha_interfaces/LedState[33] state
