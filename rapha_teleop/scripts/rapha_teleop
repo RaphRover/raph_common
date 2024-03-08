@@ -5,27 +5,31 @@ from rclpy.node import Node
 
 from sensor_msgs.msg import Joy
 from ackermann_msgs.msg import AckermannDrive
-from std_srvs.srv import SetBool
+from rapha_interfaces.srv import SetSteeringMode
+from rapha_interfaces.msg import SteeringMode
 
 
-class DDTTeleop(Node):
+class RaphaTeleop(Node):
     def __init__(self):
         super().__init__("rapha_teleop", start_parameter_services=False)
 
         self.retrieve_parameters()
 
-        self.client = self.create_client(SetBool, "/controller/change_steering_mode")
-        while not self.client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('/controller/change_steering_mode service not available, waiting again...')
-        self.req = SetBool.Request()
+        self.set_steering_mode_client = self.create_client(
+            SetSteeringMode, "controller/set_steering_mode"
+        )
+        while not self.set_steering_mode_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info(
+                "controller/set_steering_mode service not available, waiting again..."
+            )
 
-        #turning in place mode arbitralily starts as false TODO - change this
-        self.turning_in_place_mode = False
-        self.prev = False
+        # turning in place mode arbitralily starts as false TODO - change this
+        self.current_steering_mode: int = SteeringMode.ACKERMANN
+        self.target_steering_mode: int = SteeringMode.ACKERMANN
         self.is_changing_mode = False
 
         self.cmd_pub = self.create_publisher(
-            AckermannDrive, "cmd_ackermann", 10
+            AckermannDrive, "controller/cmd_ackermann", 10
         )
         self.joy_sub = self.create_subscription(Joy, "joy", self.joy_callback, 10)
 
@@ -47,7 +51,9 @@ class DDTTeleop(Node):
             self.get_parameter("button_deadman").get_parameter_value().integer_value
         )
         self.button_change_steering_mode = (
-            self.get_parameter("button_change_steering_mode").get_parameter_value().integer_value
+            self.get_parameter("button_change_steering_mode")
+            .get_parameter_value()
+            .integer_value
         )
         self.scale_speed = (
             self.get_parameter("scale_speed").get_parameter_value().double_value
@@ -56,25 +62,30 @@ class DDTTeleop(Node):
             self.get_parameter("scale_steer").get_parameter_value().double_value
         )
 
-
-    def change_steering_mode_callback(self, future):
+    def set_steering_mode_done_callback(self, future):
         if not future.result().success:
             self.get_logger().info("Failed to change steering mode")
         else:
             self.get_logger().info("Steering mode changed")
-            self.turning_in_place_mode = not self.turning_in_place_mode
+            self.current_steering_mode = self.target_steering_mode
         self.is_changing_mode = False
 
-
     def change_steering_mode(self):
-        if(self.is_changing_mode):
+        if self.is_changing_mode:
             return
 
-        self.req.data = not self.turning_in_place_mode
-        self.is_changing_mode = True
-        self.future = self.client.call_async(self.req)
+        if self.current_steering_mode == SteeringMode.TURN_IN_PLACE:
+            self.target_steering_mode = SteeringMode.ACKERMANN
+        else:
+            self.target_steering_mode = SteeringMode.TURN_IN_PLACE
 
-        self.future.add_done_callback(self.change_steering_mode_callback)
+        req = SetSteeringMode.Request()
+        req.steering_mode.data = self.target_steering_mode
+        self.is_changing_mode = True
+
+        future = self.set_steering_mode_client.call_async(req)
+
+        future.add_done_callback(self.set_steering_mode_done_callback)
 
     def joy_callback(self, data: Joy):
         cmd = AckermannDrive()
@@ -96,7 +107,7 @@ class DDTTeleop(Node):
 
 def main():
     rclpy.init()
-    node = DDTTeleop()
+    node = RaphaTeleop()
     rclpy.spin(node)
 
 
