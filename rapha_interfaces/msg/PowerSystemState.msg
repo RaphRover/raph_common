@@ -1,5 +1,7 @@
 # Represents the state of the Power System
 
+std_msgs/Header header
+
 # Whether the charger is connected
 bool charger_connected
 
