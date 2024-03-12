@@ -1,3 +1,9 @@
+joy_linux_node:
+  ros__parameters:
+    deadzone: 0.05
+    autorepeat_rate: 10.0
+    coalesce_interval: 0.05
+
 rapha_teleop:
   ros__parameters:
     axis_speed: 1
