@@ -37,6 +37,8 @@ class RaphaTeleop(Node):
         self.joy_sub = self.create_subscription(Joy, "joy", self.joy_callback, 10)
 
     def retrieve_parameters(self) -> None:
+        self.declare_parameter("acceleration", 2.0)
+        self.declare_parameter("steering_angle_velocity", 2.0)
         self.declare_parameter("axis_speed", 1)
         self.declare_parameter("axis_steer", 3)
         self.declare_parameter("button_deadman", 5)
@@ -46,6 +48,12 @@ class RaphaTeleop(Node):
         self.declare_parameter("scale_speed", 1.0)
         self.declare_parameter("scale_steer", 1.1)
 
+        self.acceleration = (
+            self.get_parameter("acceleration").get_parameter_value().double_value
+        )
+        self.steering_angle_velocity = (
+            self.get_parameter("steering_angle_velocity").get_parameter_value().double_value
+        )
         self.axis_speed = (
             self.get_parameter("axis_speed").get_parameter_value().integer_value
         )
@@ -159,8 +167,8 @@ class RaphaTeleop(Node):
 
     def joy_callback(self, data: Joy) -> None:
         cmd = AckermannDrive()
-        cmd.acceleration = 2.0
-        cmd.steering_angle_velocity = 2.0
+        cmd.acceleration = self.acceleration
+        cmd.steering_angle_velocity = self.steering_angle_velocity
 
         if data.buttons[self.button_deadman] == 1:
             cmd.speed = data.axes[self.axis_speed] * self.scale_speed

@@ -6,6 +6,8 @@ joy_linux_node:
 
 rapha_teleop:
   ros__parameters:
+    acceleration: 2.0
+    steering_angle_velocity: 2.0
     axis_speed: 1
     scale_speed: 0.5
     axis_steer: 3
