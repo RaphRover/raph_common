@@ -12,3 +12,5 @@ rapha_teleop:
     scale_steer: 1.1
     button_deadman: 5
     button_change_steering_mode: 1
+    button_calibrate_servos: 0
+    button_panick: 6
