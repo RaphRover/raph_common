@@ -30,6 +30,7 @@ class RaphaTeleop(Node):
         self.is_changing_mode = False
         self.is_calibrating_servos = False
         self.is_panicking = False
+        self.deadman_pressed = False
 
         self.cmd_pub = self.create_publisher(
             AckermannDrive, "controller/cmd_ackermann", 10
@@ -52,7 +53,9 @@ class RaphaTeleop(Node):
             self.get_parameter("acceleration").get_parameter_value().double_value
         )
         self.steering_angle_velocity = (
-            self.get_parameter("steering_angle_velocity").get_parameter_value().double_value
+            self.get_parameter("steering_angle_velocity")
+            .get_parameter_value()
+            .double_value
         )
         self.axis_speed = (
             self.get_parameter("axis_speed").get_parameter_value().integer_value
@@ -166,29 +169,38 @@ class RaphaTeleop(Node):
         self.is_panicking = False
 
     def joy_callback(self, data: Joy) -> None:
+        if self.is_changing_mode or self.is_calibrating_servos or self.is_panicking:
+            return
+
+        if data.buttons[self.button_change_steering_mode] == 1:
+            self.change_steering_mode()
+            return
+
+        if data.buttons[self.button_calibrate_servos] == 1:
+            self.calibrate_servos()
+            return
+
+        if data.buttons[self.button_panick] == 1:
+            self.panick()
+            return
+
+        if data.buttons[self.button_deadman] == 0 and not self.deadman_pressed:
+            return
+
         cmd = AckermannDrive()
+        cmd.speed = 0.0
+        cmd.steering_angle = 0.0
         cmd.acceleration = self.acceleration
         cmd.steering_angle_velocity = self.steering_angle_velocity
 
         if data.buttons[self.button_deadman] == 1:
             cmd.speed = data.axes[self.axis_speed] * self.scale_speed
             cmd.steering_angle = data.axes[self.axis_steer] * self.scale_steer
-        elif data.buttons[self.button_change_steering_mode] == 1:
-            self.change_steering_mode()
-        elif data.buttons[self.button_calibrate_servos] == 1:
-            self.calibrate_servos()
-        elif data.buttons[self.button_panick] == 1:
-            self.panick()
-        else:
-            cmd.speed = 0.0
-            cmd.steering_angle = 0.0
+            self.deadman_pressed = True
+        elif self.deadman_pressed:
+            self.deadman_pressed = False
 
-        if (
-            not self.is_changing_mode
-            and not self.is_calibrating_servos
-            and not self.is_panicking
-        ):
-            self.cmd_pub.publish(cmd)
+        self.cmd_pub.publish(cmd)
 
 
 def main():
