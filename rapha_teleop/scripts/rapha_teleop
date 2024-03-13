@@ -46,8 +46,11 @@ class RaphaTeleop(Node):
         self.declare_parameter("button_change_steering_mode", 1)
         self.declare_parameter("button_calibrate_servos", 0)
         self.declare_parameter("button_panick", 6)
+        self.declare_parameter("button_turbo", 4)
         self.declare_parameter("scale_speed", 1.0)
         self.declare_parameter("scale_steer", 1.1)
+        self.declare_parameter("turbo_acceleration", 4.0)
+        self.declare_parameter("turbo_scale_speed", 1.5)
 
         self.acceleration = (
             self.get_parameter("acceleration").get_parameter_value().double_value
@@ -79,11 +82,20 @@ class RaphaTeleop(Node):
         self.button_panick = (
             self.get_parameter("button_panick").get_parameter_value().integer_value
         )
+        self.button_turbo = (
+            self.get_parameter("button_turbo").get_parameter_value().integer_value
+        )
         self.scale_speed = (
             self.get_parameter("scale_speed").get_parameter_value().double_value
         )
         self.scale_steer = (
             self.get_parameter("scale_steer").get_parameter_value().double_value
+        )
+        self.turbo_acceleration = (
+            self.get_parameter("turbo_acceleration").get_parameter_value().double_value
+        )
+        self.turbo_scale_speed = (
+            self.get_parameter("turbo_scale_speed").get_parameter_value().double_value
         )
 
     def change_steering_mode(self) -> None:
@@ -187,15 +199,20 @@ class RaphaTeleop(Node):
         if data.buttons[self.button_deadman] == 0 and not self.deadman_pressed:
             return
 
+        turbo = data.buttons[self.button_turbo] == 1
+
         cmd = AckermannDrive()
         cmd.speed = 0.0
         cmd.steering_angle = 0.0
-        cmd.acceleration = self.acceleration
+        cmd.acceleration = self.turbo_acceleration if turbo else self.acceleration
         cmd.steering_angle_velocity = self.steering_angle_velocity
 
         if data.buttons[self.button_deadman] == 1:
-            cmd.speed = data.axes[self.axis_speed] * self.scale_speed
+            cmd.speed = data.axes[self.axis_speed] * (
+                self.turbo_scale_speed if turbo else self.scale_speed
+            )
             cmd.steering_angle = data.axes[self.axis_steer] * self.scale_steer
+
             self.deadman_pressed = True
         elif self.deadman_pressed:
             self.deadman_pressed = False
