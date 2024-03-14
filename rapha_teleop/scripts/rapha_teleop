@@ -121,7 +121,7 @@ class RaphaTeleop(Node):
 
     def set_steering_mode_done_callback(self, future: rclpy.Future) -> None:
         result: SetSteeringMode.Response = future.result()
-        if result.success:
+        if not result.success:
             self.get_logger().error(
                 f"Failed to change steering mode: Service response negative: {result.status_message}"
             )
@@ -147,7 +147,7 @@ class RaphaTeleop(Node):
 
     def calibrate_servos_done_callback(self, future: rclpy.Future) -> None:
         result: Trigger.Response = future.result()
-        if result.success:
+        if not result.success:
             self.get_logger().error(
                 f"Failed to calibrate servos: Service response negative: {result.message}"
             )
@@ -172,7 +172,7 @@ class RaphaTeleop(Node):
 
     def panick_done_callback(self, future: rclpy.Future) -> None:
         result: Trigger.Response = future.result()
-        if result.success:
+        if not result.success:
             self.get_logger().error(
                 f"Failed to panick: Service response negative: {result.message}"
             )
