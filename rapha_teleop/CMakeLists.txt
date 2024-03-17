@@ -20,6 +20,9 @@ install(
 )
 
 if(BUILD_TESTING)
+  find_package(ament_cmake_copyright REQUIRED)
+  ament_copyright()
+
   find_package(ament_cmake_flake8 REQUIRED)
   ament_flake8(CONFIG_FILE "ament_flake8.ini")
 
