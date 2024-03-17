@@ -29,7 +29,6 @@ class RaphaTeleop(Node):
 
         self.is_changing_mode = False
         self.is_calibrating_servos = False
-        self.is_panicking = False
         self.deadman_pressed = False
 
         self.cmd_pub = self.create_publisher(
@@ -45,7 +44,6 @@ class RaphaTeleop(Node):
         self.declare_parameter("button_deadman", 5)
         self.declare_parameter("button_change_steering_mode", 1)
         self.declare_parameter("button_calibrate_servos", 0)
-        self.declare_parameter("button_panick", 6)
         self.declare_parameter("button_turbo", 4)
         self.declare_parameter("scale_speed", 1.0)
         self.declare_parameter("scale_steer", 1.1)
@@ -78,9 +76,6 @@ class RaphaTeleop(Node):
             self.get_parameter("button_calibrate_servos")
             .get_parameter_value()
             .integer_value
-        )
-        self.button_panick = (
-            self.get_parameter("button_panick").get_parameter_value().integer_value
         )
         self.button_turbo = (
             self.get_parameter("button_turbo").get_parameter_value().integer_value
@@ -155,33 +150,8 @@ class RaphaTeleop(Node):
             self.get_logger().info("Servos calibrated")
         self.is_calibrating_servos = False
 
-    def panick(self) -> None:
-        if self.is_panicking:
-            return
-
-        if not self.panic_client.service_is_ready():
-            self.get_logger().error("Failed to panick: Service not ready")
-            return
-
-        req = Trigger.Request()
-        self.is_panicking = True
-
-        future = self.panic_client.call_async(req)
-
-        future.add_done_callback(self.panick_done_callback)
-
-    def panick_done_callback(self, future: rclpy.Future) -> None:
-        result: Trigger.Response = future.result()
-        if not result.success:
-            self.get_logger().error(
-                f"Failed to panick: Service response negative: {result.message}"
-            )
-        else:
-            self.get_logger().info("Panicked")
-        self.is_panicking = False
-
     def joy_callback(self, data: Joy) -> None:
-        if self.is_changing_mode or self.is_calibrating_servos or self.is_panicking:
+        if self.is_changing_mode or self.is_calibrating_servos:
             return
 
         if data.buttons[self.button_change_steering_mode] == 1:
@@ -190,10 +160,6 @@ class RaphaTeleop(Node):
 
         if data.buttons[self.button_calibrate_servos] == 1:
             self.calibrate_servos()
-            return
-
-        if data.buttons[self.button_panick] == 1:
-            self.panick()
             return
 
         if data.buttons[self.button_deadman] == 0 and not self.deadman_pressed:
