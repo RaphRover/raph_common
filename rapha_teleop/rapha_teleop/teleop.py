@@ -1,10 +1,9 @@
+from ackermann_msgs.msg import AckermannDrive
+from rapha_interfaces.msg import SteeringMode
+from rapha_interfaces.srv import SetSteeringMode
 from rclpy.node import Node
 from rclpy.task import Future
-
 from sensor_msgs.msg import Joy
-from ackermann_msgs.msg import AckermannDrive
-from rapha_interfaces.srv import SetSteeringMode
-from rapha_interfaces.msg import SteeringMode
 from std_srvs.srv import Trigger
 
 
@@ -115,7 +114,8 @@ class RaphaTeleop(Node):
         result: SetSteeringMode.Response = future.result()
         if not result.success:
             self.get_logger().error(
-                f"Failed to change steering mode: Service response negative: {result.status_message}"
+                "Failed to change steering mode: Service response negative: "
+                f"{result.status_message}"
             )
         else:
             self.get_logger().info("Steering mode changed")

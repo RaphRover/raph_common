@@ -1,3 +1,3 @@
 from .teleop import RaphaTeleop
 
-all = ["RaphaTeleop"]
+__all__ = ["RaphaTeleop"]
