@@ -20,6 +20,9 @@ install(
 )
 
 if(BUILD_TESTING)
+  find_package(ament_cmake_black REQUIRED)
+  ament_black()
+
   find_package(ament_cmake_copyright REQUIRED)
   ament_copyright()
 
