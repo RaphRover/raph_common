@@ -185,8 +185,6 @@ class RaphaTeleop(Node):
         turbo = data.buttons[self.button_turbo] == 1
 
         cmd = AckermannDrive()
-        cmd.speed = 0.0
-        cmd.steering_angle = 0.0
         cmd.acceleration = self.turbo_acceleration if turbo else self.acceleration
         cmd.steering_angle_velocity = self.steering_angle_velocity
 
@@ -197,7 +195,9 @@ class RaphaTeleop(Node):
             cmd.steering_angle = data.axes[self.axis_steer] * self.scale_steer
 
             self.deadman_pressed = True
-        elif self.deadman_pressed:
+        else:
+            cmd.speed = 0.0
+            cmd.steering_angle = 0.0
             self.deadman_pressed = False
 
         self.cmd_pub.publish(cmd)
