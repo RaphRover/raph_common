@@ -19,5 +19,6 @@
 # THE SOFTWARE.
 
 from .teleop import RaphaTeleop
+from .widow import WidowArm
 
-__all__ = ["RaphaTeleop"]
+__all__ = ["RaphaTeleop", "WidowArm"]

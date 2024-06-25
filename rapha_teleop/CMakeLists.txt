@@ -16,6 +16,7 @@ install(
 install(
   PROGRAMS
     scripts/rapha_teleop
+    scripts/widow_teleop
   DESTINATION lib/${PROJECT_NAME}
 )
 

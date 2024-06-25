@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+import rclpy
+
+from rapha_teleop import WidowArm
+
+rclpy.init()
+arm = WidowArm()
+arm.start()

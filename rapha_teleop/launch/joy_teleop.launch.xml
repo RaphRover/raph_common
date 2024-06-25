@@ -13,4 +13,6 @@
   <node pkg="rapha_teleop" exec="rapha_teleop">
     <param from="$(var joy_config_file)" />
   </node>
+
+  <node pkg="rapha_teleop" exec="widow_teleop"/>
 </launch>
