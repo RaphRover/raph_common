@@ -75,13 +75,13 @@
 
     <link name="${link_prefix}mounting_plate_frame"/>
 
-    <xacro:servo_link name="L"/>
-    <xacro:servo_link name="R"/>
+    <xacro:servo_link name="l"/>
+    <xacro:servo_link name="r"/>
 
-    <xacro:wheel_link name="FL"/>
-    <xacro:wheel_link name="RL"/>
-    <xacro:wheel_link name="FR"/>
-    <xacro:wheel_link name="RR"/>
+    <xacro:wheel_link name="fl"/>
+    <xacro:wheel_link name="rl"/>
+    <xacro:wheel_link name="fr"/>
+    <xacro:wheel_link name="rr"/>
 
     <link name="${link_prefix}imu_frame"/>
 
@@ -95,53 +95,53 @@
       </joint>
     </xacro:if>
 
-    <joint name="${joint_prefix}servo_L_joint" type="revolute">
+    <joint name="${joint_prefix}servo_l_joint" type="revolute">
       <origin xyz="-0.37943 0.1899 -0.022433" rpy="0 0 0"/>
       <parent link="${link_prefix}base_link"/>
-      <child link="${link_prefix}servo_L_link"/>
+      <child link="${link_prefix}servo_l_link"/>
       <axis xyz="0 0 -1"/>
       <limit effort="100.0" lower="-1.5708" upper="1.5708" velocity="100.0"/>
     </joint>
 
-    <joint name="${joint_prefix}servo_R_joint" type="revolute">
+    <joint name="${joint_prefix}servo_r_joint" type="revolute">
       <origin xyz="-0.37943 -0.1899 -0.022433" rpy="0 0 ${pi}"/>
       <parent link="${link_prefix}base_link"/>
-      <child link="${link_prefix}servo_R_link"/>
+      <child link="${link_prefix}servo_r_link"/>
       <axis xyz="0 0 -1"/>
       <limit effort="100.0" lower="-1.5708" upper="1.5708" velocity="100.0"/>
     </joint>
 
-    <joint name="${joint_prefix}wheel_FL_joint" type="continuous">
+    <joint name="${joint_prefix}wheel_fl_joint" type="continuous">
       <origin xyz="0 0.19402 -0.144756" rpy="0 0 0"/>
       <parent link="${link_prefix}base_link"/>
-      <child link="${link_prefix}wheel_FL_link"/>
+      <child link="${link_prefix}wheel_fl_link"/>
       <axis xyz="0 1 0"/>
       <limit effort="2.0" velocity="6.0"/>
       <dynamics friction="0.3125" damping="0.1"/>
     </joint>
 
-    <joint name="${joint_prefix}wheel_RL_joint" type="continuous">      
+    <joint name="${joint_prefix}wheel_rl_joint" type="continuous">      
       <origin xyz="0 0 -0.12392" rpy="0 0 0"/>
-      <parent link="${link_prefix}servo_L_link"/>
-      <child link="${link_prefix}wheel_RL_link"/>
+      <parent link="${link_prefix}servo_l_link"/>
+      <child link="${link_prefix}wheel_rl_link"/>
       <axis xyz="0 1 0"/>
       <limit effort="2.0" velocity="6.0"/>
       <dynamics friction="0.3125" damping="0.1"/>
     </joint>
 
-    <joint name="${joint_prefix}wheel_FR_joint" type="continuous">
+    <joint name="${joint_prefix}wheel_fr_joint" type="continuous">
       <origin xyz="0 -0.19402 -0.144756" rpy="0 0 ${pi}"/>
       <parent link="${link_prefix}base_link"/>
-      <child link="${link_prefix}wheel_FR_link"/>
+      <child link="${link_prefix}wheel_fr_link"/>
       <axis xyz="0 -1 0"/>
       <limit effort="2.0" velocity="6.0"/>
       <dynamics friction="0.3125" damping="0.1"/>
     </joint>
 
-    <joint name="${joint_prefix}wheel_RR_joint" type="continuous">
+    <joint name="${joint_prefix}wheel_rr_joint" type="continuous">
       <origin xyz="0 0 -0.12392" rpy="0 0 0"/>
-      <parent link="${link_prefix}servo_R_link"/>
-      <child link="${link_prefix}wheel_RR_link"/>
+      <parent link="${link_prefix}servo_r_link"/>
+      <child link="${link_prefix}wheel_rr_link"/>
       <axis xyz="0 -1 0"/>
       <limit effort="2.0" velocity="6.0"/>
       <dynamics friction="0.3125" damping="0.1"/> 
