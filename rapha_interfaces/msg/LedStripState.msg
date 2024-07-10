@@ -1,4 +1,4 @@
-# This message represents the state of the whole led strip
+# This message represents the state of the whole led strip.
 
 uint8 LED_STRIP_SIZE=129
 
