@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
 import rclpy
+from rclpy.executors import MultiThreadedExecutor
 
-from rapha_teleop import WidowArm
+from rapha_teleop import WidowArmNode
 
 rclpy.init()
-arm = WidowArm()
-arm.start()
+node = WidowArmNode()
+executor = MultiThreadedExecutor(4)
+executor.add_node(node)
+executor.spin()
