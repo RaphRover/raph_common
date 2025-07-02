@@ -1,0 +1,20 @@
+joy_linux_node:
+  ros__parameters:
+    deadzone: 0.05
+    autorepeat_rate: 10.0
+    coalesce_interval: 0.05
+
+raph_teleop:
+  ros__parameters:
+    acceleration: 2.0
+    steering_angle_velocity: 2.0
+    axis_speed: 1
+    scale_speed: 0.5
+    axis_steer: 3
+    scale_steer: 1.1
+    button_deadman: 5
+    button_change_steering_mode: 1
+    button_calibrate_servos: 0
+    button_turbo: 4
+    turbo_scale_speed: 1.5
+    turbo_acceleration: 4.0

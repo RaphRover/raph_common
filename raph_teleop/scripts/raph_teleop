@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+import rclpy
+
+from raph_teleop import RaphTeleop
+
+rclpy.init()
+node = RaphTeleop()
+rclpy.spin(node)
