@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="raph">
+
+  <xacro:include filename="$(find raph_description)/urdf/raph_macros.xacro"/>
+
+  <xacro:raph/>
+  
+</robot>
