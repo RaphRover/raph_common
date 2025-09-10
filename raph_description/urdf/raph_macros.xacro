@@ -391,7 +391,7 @@
             <stddev>0.01</stddev>
           </noise>
         </lidar>
-        <topic>${link_prefix}scan</topic>
+        <topic>${link_prefix}scan_raw</topic>
         <gz_frame_id>laser_frame</gz_frame_id>
       </sensor>
     </gazebo>
@@ -503,6 +503,31 @@
         <maxSteeringAngle>1.5708</maxSteeringAngle>
       </plugin>
     </gazebo>
+
+    <gazebo>
+      <plugin filename="libraph_gz_lidar_filter_plugin.so" name="raph_gz_plugins::LidarAngleFilter">
+        <input_topic>${link_prefix}scan_raw</input_topic>
+        <output_topic>${link_prefix}scan</output_topic>
+        <filter_ranges>
+          <range>
+            <min>2.45582</min>
+            <max>2.6529</max>
+          </range>
+          <range>
+            <min>2.87979</min>
+            <max>2.9147</max>
+          </range>
+          <range>
+            <min>-2.9147</min>
+            <max>-2.87979</max>
+          </range>
+          <range>
+            <min>-2.6529</min>
+            <max>-2.45582</max>
+          </range>
+        </filter_ranges>
+      </plugin>
+    </gazebo> 
 
   </xacro:macro>
 
