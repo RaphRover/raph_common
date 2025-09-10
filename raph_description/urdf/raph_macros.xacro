@@ -497,10 +497,10 @@
       <plugin
         filename="libraph_gz_ackermann_plugin.so"
         name="raph_gz_plugins::AckermannToTwist">
-        <robotNamespace>${link_prefix}</robotNamespace>
+        <robot_namespace>${link_prefix}</robot_namespace>
         <!-- TODO make sure that the params are set correctly -->
         <wheelbase>0.379</wheelbase>
-        <maxSteeringAngle>1.5708</maxSteeringAngle>
+        <max_steering_angle>1.5708</max_steering_angle>
       </plugin>
     </gazebo>
 
