@@ -475,14 +475,14 @@
         <left_joint>${joint_prefix}wheel_fl_joint</left_joint>
         <right_joint>${joint_prefix}wheel_fr_joint</right_joint>
 
-        <!-- TODO make sure that the params are set correctly -->
-        <wheelbase>0.379</wheelbase>
-        <wheel_separation>0.38</wheel_separation>
-        <wheel_radius>0.091</wheel_radius>
-        <steering_limit>1.48353</steering_limit>
+        <wheelbase>0.378</wheelbase>
+        <wheel_separation>0.384</wheel_separation>
+        <wheel_radius>0.08</wheel_radius>
+        <!-- TODO steering limit may not be accurate -->
+        <steering_limit>1.08</steering_limit>
         <!-- <kingpin_width>change_this</kingpin_width> -->
-        <min_steering_angle>-1.5708</min_steering_angle>
-        <max_steering_angle>1.5708</max_steering_angle>
+        <min_steering_angle>-1.08</min_steering_angle>
+        <max_steering_angle>1.08</max_steering_angle>
 
         <topic>${link_prefix}cmd_vel</topic>
         <odom_topic>${link_prefix}odom</odom_topic>
@@ -498,9 +498,8 @@
         filename="libraph_gz_ackermann_plugin.so"
         name="raph_gz_plugins::AckermannToTwist">
         <robot_namespace>${link_prefix}</robot_namespace>
-        <!-- TODO make sure that the params are set correctly -->
-        <wheelbase>0.379</wheelbase>
-        <max_steering_angle>1.5708</max_steering_angle>
+        <wheelbase>0.378</wheelbase>
+        <max_steering_angle>1.08</max_steering_angle>
       </plugin>
     </gazebo>
 
