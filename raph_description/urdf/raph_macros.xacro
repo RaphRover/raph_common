@@ -463,43 +463,80 @@
       </sensor>
     </gazebo>
 
-    <!-- All-wheel drive with rear steering plugin -->
     <gazebo>
       <plugin
-        filename="gz-sim-ackermann-steering-system"
-        name="gz::sim::systems::AckermannSteering">
+        filename="libraph_gz_steering_system.so"
+        name="raph_gz_plugins::RaphSteeringSystem">
+        <robot_namespace>${link_prefix}</robot_namespace>
+        <wheelbase>0.378</wheelbase>
+        <max_steering_angle>1.08</max_steering_angle>
+        <turn_in_place_angle>1.10082</turn_in_place_angle>
+        <max_wheel_speed>1.52</max_wheel_speed>
+        <track_width>0.384</track_width>
+        <wheel_radius>0.08</wheel_radius>
+
         <left_steering_joint>${joint_prefix}servo_l_joint</left_steering_joint>
         <right_steering_joint>${joint_prefix}servo_r_joint</right_steering_joint>
-        <left_joint>${joint_prefix}wheel_rl_joint</left_joint>
-        <right_joint>${joint_prefix}wheel_rr_joint</right_joint>
-        <left_joint>${joint_prefix}wheel_fl_joint</left_joint>
-        <right_joint>${joint_prefix}wheel_fr_joint</right_joint>
+        <left_steering_wheel_joint>${joint_prefix}wheel_rl_joint</left_steering_wheel_joint>
+        <right_steering_wheel_joint>${joint_prefix}wheel_rr_joint</right_steering_wheel_joint>
+        <left_drive_wheel_joint>${joint_prefix}wheel_fl_joint</left_drive_wheel_joint>
+        <right_drive_wheel_joint>${joint_prefix}wheel_fr_joint</right_drive_wheel_joint>
 
-        <wheelbase>0.378</wheelbase>
-        <wheel_separation>0.384</wheel_separation>
-        <wheel_radius>0.08</wheel_radius>
-        <!-- TODO steering limit may not be accurate -->
-        <steering_limit>1.08</steering_limit>
-        <!-- <kingpin_width>change_this</kingpin_width> -->
-        <min_steering_angle>-1.08</min_steering_angle>
-        <max_steering_angle>1.08</max_steering_angle>
-
-        <topic>${link_prefix}cmd_vel</topic>
-        <odom_topic>${link_prefix}odom</odom_topic>
-        <tf_topic>${link_prefix}tf</tf_topic>
-        <frame_id>odom</frame_id>
-        <child_frame_id>${link_prefix}base_footprint</child_frame_id>
-        <odom_publish_frequency>50</odom_publish_frequency>
+        <left_steering_joint_topic>/${joint_prefix}servo_l_joint/cmd_pos</left_steering_joint_topic>
+        <right_steering_joint_topic>/${joint_prefix}servo_r_joint/cmd_pos</right_steering_joint_topic>
+        <left_steering_wheel_topic>/${joint_prefix}wheel_rl_joint/cmd_vel</left_steering_wheel_topic>
+        <right_steering_wheel_topic>/${joint_prefix}wheel_rr_joint/cmd_vel</right_steering_wheel_topic>
+        <left_drive_wheel_topic>/${joint_prefix}wheel_fl_joint/cmd_vel</left_drive_wheel_topic>
+        <right_drive_wheel_topic>/${joint_prefix}wheel_fr_joint/cmd_vel</right_drive_wheel_topic>
       </plugin>
     </gazebo>
 
     <gazebo>
-      <plugin
-        filename="libraph_gz_ackermann_plugin.so"
-        name="raph_gz_plugins::AckermannToTwist">
-        <robot_namespace>${link_prefix}</robot_namespace>
-        <wheelbase>0.378</wheelbase>
-        <max_steering_angle>1.08</max_steering_angle>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>${joint_prefix}servo_l_joint</joint_name>
+        <topic>/${joint_prefix}servo_l_joint/cmd_pos</topic>
+        <use_velocity_commands>true</use_velocity_commands>
+        <cmd_max>1</cmd_max>
+        <cmd_min>-1</cmd_min>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>${joint_prefix}servo_r_joint</joint_name>
+        <topic>/${joint_prefix}servo_r_joint/cmd_pos</topic>
+
+        <use_velocity_commands>true</use_velocity_commands>
+        <cmd_max>1</cmd_max>
+        <cmd_min>-1</cmd_min>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_rl_joint</joint_name>
+        <topic>/${joint_prefix}wheel_rl_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_rr_joint</joint_name>
+        <topic>/${joint_prefix}wheel_rr_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_fl_joint</joint_name>
+        <topic>/${joint_prefix}wheel_fl_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_fr_joint</joint_name>
+        <topic>/${joint_prefix}wheel_fr_joint/cmd_vel</topic>
       </plugin>
     </gazebo>
 
