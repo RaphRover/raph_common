@@ -11,11 +11,11 @@
                        imu_translation:='-0.128 0 -0.0393'">
     <!--TODO specify accurate imu translation-->
 
-    <xacro:oak_camera parent="${link_prefix}base_link" base_frame="${link_prefix}oak_base_frame">
+    <xacro:oak_camera parent="${link_prefix}base_link" base_frame="oak_base_frame" namespace="${link_prefix}">
       <origin xyz="-0.05642 0.0 -0.076218" rpy="0 0 0" />
     </xacro:oak_camera>
 
-    <xacro:rplidar_s3 parent="${link_prefix}base_link">
+    <xacro:rplidar_s3 parent="${link_prefix}base_link" namespace="${link_prefix}">
       <origin xyz="-0.062106 0.0 0.011588" />
     </xacro:rplidar_s3>
 
@@ -392,7 +392,7 @@
           </noise>
         </lidar>
         <topic>${link_prefix}scan_raw</topic>
-        <gz_frame_id>laser_frame</gz_frame_id>
+        <gz_frame_id>${link_prefix}laser_frame</gz_frame_id>
       </sensor>
     </gazebo>
 
@@ -563,7 +563,21 @@
           </range>
         </filter_ranges>
       </plugin>
-    </gazebo> 
+    </gazebo>
+
+    <!--Odometry publisher-->
+    <gazebo>
+      <plugin
+        filename="gz-sim-odometry-publisher-system"
+        name="gz::sim::systems::OdometryPublisher">
+        <odom_frame>${link_prefix}odom</odom_frame>
+        <robot_base_frame>${link_prefix}base_footprint</robot_base_frame>
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>${link_prefix}odom</odom_topic>
+        <tf_topic>/tf</tf_topic>
+        <gaussian_noise>0.001</gaussian_noise>
+      </plugin>
+    </gazebo>
 
   </xacro:macro>
 

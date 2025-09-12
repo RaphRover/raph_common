@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <robot name="sp3lidar" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="rplidar_s3"
-    params="parent *origin">
-  
-    <link name="laser_frame"/>
-  
-    <joint name="laser_joint" type="fixed">
+    params="parent *origin namespace:=''">
+    <link name="${namespace}laser_frame"/>
+
+    <joint name="${namespace}laser_joint" type="fixed">
       <xacro:insert_block name="origin"/>
       <parent link="${parent}"/>
-      <child link="laser_frame"/>
+      <child link="${namespace}laser_frame"/>
     </joint>
   </xacro:macro>
 </robot>

@@ -2,76 +2,76 @@
 <robot name="depthai_camera" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="oak_camera"
-    params="parent base_frame *origin r:=0.3 g:=0.3 b:=0.3 a:=0.8">
+    params="parent base_frame *origin r:=0.3 g:=0.3 b:=0.3 a:=0.8 namespace:=''">
 
     <xacro:property name="baseline" value="0.075" />
 
     <!-- base_link of the sensor-->
-    <link name="${base_frame}"/>
+    <link name="${namespace}${base_frame}"/>
 
-    <joint name="oak_center_joint" type="fixed">
+    <joint name="${namespace}oak_center_joint" type="fixed">
       <parent link="${parent}"/>
-      <child link="${base_frame}"/>
+      <child link="${namespace}${base_frame}"/>
       <xacro:insert_block name="origin" />
     </joint>
 
     <!-- IMU -->
-    <link name="oak_imu_frame" />
-    <joint name="oak_imu_joint" type="fixed">
-      <parent link="${base_frame}"/>
-      <child link="oak_imu_frame"/>
+    <link name="${namespace}oak_imu_frame" />
+    <joint name="${namespace}oak_imu_joint" type="fixed">
+      <parent link="${namespace}${base_frame}"/>
+      <child link="${namespace}oak_imu_frame"/>
       <origin xyz="0.0 -0.015 -0.013662" rpy="0.0 ${pi/2} 0.0" />
     </joint>
 
     <!-- RGB Camera -->
-    <link name="oak_rgb_camera_frame" />
+    <link name="${namespace}oak_rgb_camera_frame" />
     
-    <joint name="oak_rgb_camera_joint" type="fixed">
-      <parent link="${base_frame}"/>
-      <child link="oak_rgb_camera_frame"/>
+    <joint name="${namespace}oak_rgb_camera_joint" type="fixed">
+      <parent link="${namespace}${base_frame}"/>
+      <child link="${namespace}oak_rgb_camera_frame"/>
       <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
-    <link name="oak_rgb_camera_optical_frame"/>
+    <link name="${namespace}oak_rgb_camera_optical_frame"/>
     
-    <joint name="oak_rgb_camera_optical_joint" type="fixed">
+    <joint name="${namespace}oak_rgb_camera_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${pi/2} 0.0 -${pi/2}"/>
-      <parent link="oak_rgb_camera_frame"/>
-      <child link="oak_rgb_camera_optical_frame"/>
+      <parent link="${namespace}oak_rgb_camera_frame"/>
+      <child link="${namespace}oak_rgb_camera_optical_frame"/>
     </joint>
 
     <!-- Left Camera -->
-    <link name="oak_left_camera_frame" />
+    <link name="${namespace}oak_left_camera_frame" />
     
-    <joint name="oak_left_camera_joint" type="fixed">
-      <parent link="${base_frame}"/>
-      <child link="oak_left_camera_frame"/>
+    <joint name="${namespace}oak_left_camera_joint" type="fixed">
+      <parent link="${namespace}${base_frame}"/>
+      <child link="${namespace}oak_left_camera_frame"/>
       <origin xyz="0 ${baseline/2} 0" rpy="0 0 0" />
     </joint>
 
-    <link name="oak_left_camera_optical_frame"/>
+    <link name="${namespace}oak_left_camera_optical_frame"/>
     
-    <joint name="oak_left_camera_optical_joint" type="fixed">
+    <joint name="${namespace}oak_left_camera_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${pi/2} 0.0 -${pi/2}"/>
-      <parent link="oak_left_camera_frame"/>
-      <child link="oak_left_camera_optical_frame"/>
+      <parent link="${namespace}oak_left_camera_frame"/>
+      <child link="${namespace}oak_left_camera_optical_frame"/>
     </joint>
 
     <!-- right Camera -->
-    <link name="oak_right_camera_frame" />
+    <link name="${namespace}oak_right_camera_frame" />
     
-    <joint name="oak_right_camera_joint" type="fixed">
-      <parent link="${base_frame}"/>
-      <child link="oak_right_camera_frame"/>
+    <joint name="${namespace}oak_right_camera_joint" type="fixed">
+      <parent link="${namespace}${base_frame}"/>
+      <child link="${namespace}oak_right_camera_frame"/>
       <origin xyz="0 -${baseline/2} 0" rpy="0 0 0" />
     </joint>
 
-    <link name="oak_right_camera_optical_frame"/>
+    <link name="${namespace}oak_right_camera_optical_frame"/>
     
-    <joint name="oak_right_camera_optical_joint" type="fixed">
+    <joint name="${namespace}oak_right_camera_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${pi/2} 0.0 -${pi/2}"/>
-      <parent link="oak_right_camera_frame"/>
-      <child link="oak_right_camera_optical_frame"/>
+      <parent link="${namespace}oak_right_camera_frame"/>
+      <child link="${namespace}oak_right_camera_optical_frame"/>
     </joint>
 
   </xacro:macro>
