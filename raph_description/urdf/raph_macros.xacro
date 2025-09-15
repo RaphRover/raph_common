@@ -453,7 +453,7 @@
       <sensor type="imu" name="raph_imu_sensor">
         <update_rate>100</update_rate>
         <visualize>true</visualize>
-        <topic>${link_prefix}imu/data</topic>
+        <topic>${link_prefix}controller/imu</topic>
         <always_on>1</always_on>
         <gz_frame_id>${link_prefix}imu_frame</gz_frame_id>
       </sensor>
@@ -569,7 +569,7 @@
         <odom_frame>${link_prefix}odom</odom_frame>
         <robot_base_frame>${link_prefix}base_footprint</robot_base_frame>
         <odom_publish_frequency>50</odom_publish_frequency>
-        <odom_topic>${link_prefix}odom</odom_topic>
+        <odom_topic>${link_prefix}controller/odom</odom_topic>
         <tf_topic>/tf</tf_topic>
         <gaussian_noise>0.001</gaussian_noise>
       </plugin>
