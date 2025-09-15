@@ -141,7 +141,7 @@
       <child link="${link_prefix}wheel_fl_link"/>
       <axis xyz="0 1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/>
+      <dynamics friction="0.5" damping="0.2"/>
     </joint>
 
     <joint name="${joint_prefix}wheel_rl_joint" type="continuous">      
@@ -150,7 +150,7 @@
       <child link="${link_prefix}wheel_rl_link"/>
       <axis xyz="0 1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/>
+      <dynamics friction="0.5" damping="0.2"/>
     </joint>
 
     <joint name="${joint_prefix}wheel_fr_joint" type="continuous">
@@ -159,7 +159,7 @@
       <child link="${link_prefix}wheel_fr_link"/>
       <axis xyz="0 -1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/>
+      <dynamics friction="0.5" damping="0.2"/>
     </joint>
 
     <joint name="${joint_prefix}wheel_rr_joint" type="continuous">
@@ -168,7 +168,7 @@
       <child link="${link_prefix}wheel_rr_link"/>
       <axis xyz="0 -1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/> 
+      <dynamics friction="0.5" damping="0.2"/> 
     </joint>
 
     <joint name="${joint_prefix}imu_joint" type="fixed">
@@ -277,16 +277,15 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-              <slip1>0.035</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
             </ode>
             <bullet>
-              <friction>1</friction>
-              <friction2>1</friction2>
-              <rolling_friction>0.1</rolling_friction>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
             </bullet>
           </friction>
         </surface>
@@ -298,16 +297,15 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-              <slip1>0.035</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
             </ode>
             <bullet>
-              <friction>1</friction>
-              <friction2>1</friction2>
-              <rolling_friction>0.1</rolling_friction>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
             </bullet>
           </friction>
         </surface>
@@ -319,16 +317,15 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-              <slip1>0.035</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
             </ode>
             <bullet>
-              <friction>1</friction>
-              <friction2>1</friction2>
-              <rolling_friction>0.1</rolling_friction>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
             </bullet>
           </friction>
         </surface>
@@ -340,16 +337,15 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-              <slip1>0.035</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
             </ode>
             <bullet>
-              <friction>1</friction>
-              <friction2>1</friction2>
-              <rolling_friction>0.1</rolling_friction>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
             </bullet>
           </friction>
         </surface>
@@ -496,8 +492,8 @@
         <joint_name>${joint_prefix}servo_l_joint</joint_name>
         <topic>/${joint_prefix}servo_l_joint/cmd_pos</topic>
         <use_velocity_commands>true</use_velocity_commands>
-        <cmd_max>1</cmd_max>
-        <cmd_min>-1</cmd_min>
+        <cmd_max>3.0</cmd_max>
+        <cmd_min>-3.0</cmd_min>
       </plugin>
     </gazebo>
 
@@ -507,8 +503,8 @@
         <topic>/${joint_prefix}servo_r_joint/cmd_pos</topic>
 
         <use_velocity_commands>true</use_velocity_commands>
-        <cmd_max>1</cmd_max>
-        <cmd_min>-1</cmd_min>
+        <cmd_max>3.0</cmd_max>
+        <cmd_min>-3.0</cmd_min>
       </plugin>
     </gazebo>
 
