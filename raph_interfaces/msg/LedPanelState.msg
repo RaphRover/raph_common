@@ -4,5 +4,5 @@
 raph_interfaces/LedPanel panel
 
 # State of each LED on the panel.
-# For panels with less than 36 LEDs, the last array items are ignored.
-raph_interfaces/LedState[36] state
+# For panels with less than 40 LEDs, the last array items are ignored.
+raph_interfaces/LedState[40] state
