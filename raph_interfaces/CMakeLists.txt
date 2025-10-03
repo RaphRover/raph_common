@@ -11,7 +11,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ImuDiagnostics.msg"
   "msg/Led.msg"
   "msg/LedColor.msg"
-  "msg/LedPanel.msg"
   "msg/LedPanelState.msg"
   "msg/LedState.msg"
   "msg/LedStripState.msg"
