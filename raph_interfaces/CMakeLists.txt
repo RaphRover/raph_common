@@ -17,6 +17,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/MotorDiagnostics.msg"
   "msg/PowerSystemState.msg"
   "msg/SteeringMode.msg"
+  "srv/GetOsVersion.srv"
   "srv/SetBatteryModes.srv"
   "srv/SetLeds.srv"
   "srv/SetSteeringMode.srv"
