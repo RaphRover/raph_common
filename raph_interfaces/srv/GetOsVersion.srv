@@ -1,0 +1,11 @@
+---
+# version string in the format {major}.{minor}.{patch}
+string version
+
+# Optional version variant
+string variant
+
+# Parsed version numbers
+uint8 major
+uint8 minor
+uint8 patch

@@ -28,6 +28,7 @@ from std_srvs.srv import Trigger
 
 
 class RaphTeleop(Node):
+
     def __init__(self) -> None:
         super().__init__("raph_teleop", start_parameter_services=False)
 

@@ -2,6 +2,11 @@
 Changelog for package raph_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.0 (2025-12-05)
+------------------
+* Change all names to Raph (`#6 <https://github.com/Rapha-Rover/rapha_common/issues/6>`_)
+* Contributors: Jan Hernas
+
 0.0.1 (2024-07-22)
 ------------------
 * Add new URDF file for Raph rover (`#5 <https://github.com/Rapha-Rover/rapha_common/issues/5>`_)
