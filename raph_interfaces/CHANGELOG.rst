@@ -2,8 +2,8 @@
 Changelog for package raph_interfaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2025-12-05)
+------------------
 * Add raph_interfaces/srv/GetOsVersion interface
 * feat: Update LED interfaces (`#9 <https://github.com/Rapha-Rover/rapha_common/issues/9>`_)
 * Update LED messages (`#8 <https://github.com/Rapha-Rover/rapha_common/issues/8>`_)
