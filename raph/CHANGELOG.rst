@@ -2,6 +2,9 @@
 Changelog for package raph
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.0 (2025-12-05)
 ------------------
 * Change all names to Raph (`#6 <https://github.com/Rapha-Rover/rapha_common/issues/6>`_)

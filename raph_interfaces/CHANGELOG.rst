@@ -2,6 +2,9 @@
 Changelog for package raph_interfaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.0 (2025-12-05)
 ------------------
 * Add raph_interfaces/srv/GetOsVersion interface
