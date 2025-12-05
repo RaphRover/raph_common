@@ -5,12 +5,14 @@
     default="$(find-pkg-share raph_teleop)/config/joy_config.yaml"
     description="Path to the yaml file with parameters for joy_linux_node and raph_teleop nodes" />
 
-  <node pkg="joy_linux" exec="joy_linux_node">
+  <arg name="namespace" default="" description="Namespace for the nodes" />
+
+  <node pkg="joy_linux" exec="joy_linux_node" namespace="$(var namespace)">
     <param name="dev" value="$(var joy_dev)" />
     <param from="$(var joy_config_file)" />
   </node>
 
-  <node pkg="raph_teleop" exec="raph_teleop">
+  <node pkg="raph_teleop" exec="raph_teleop" namespace="$(var namespace)">
     <param from="$(var joy_config_file)" />
   </node>
 </launch>

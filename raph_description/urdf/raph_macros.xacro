@@ -11,16 +11,24 @@
                        imu_translation:='-0.128 0 -0.0393'">
     <!--TODO specify accurate imu translation-->
 
-    <xacro:oak_camera parent="${link_prefix}base_link" base_frame="${link_prefix}oak_base_frame">
+    <xacro:oak_camera parent="${link_prefix}base_link" base_frame="oak_base_frame" namespace="${link_prefix}">
       <origin xyz="-0.05642 0.0 -0.076218" rpy="0 0 0" />
     </xacro:oak_camera>
 
-    <xacro:rplidar_s3 parent="${link_prefix}base_link">
+    <xacro:rplidar_s3 parent="${link_prefix}base_link" namespace="${link_prefix}">
       <origin xyz="-0.062106 0.0 0.011588" />
     </xacro:rplidar_s3>
 
     <xacro:macro name="servo_link" params="name">
       <link name="${link_prefix}servo_${name}_link">
+        <inertial>
+          <mass value="0.055"/>
+          <origin xyz="0 0 0"/>
+          <inertia
+            ixx="0.000001" ixy="0.0" ixz="0.0"
+            iyy="0.000001" iyz="0.0"
+            izz="0.000001"/>
+        </inertial>
         <visual>
           <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
           <geometry>
@@ -38,6 +46,14 @@
 
     <xacro:macro name="wheel_link" params="name"> 
       <link name="${link_prefix}wheel_${name}_link">
+        <inertial>
+          <mass value="0.5"/>
+          <origin xyz="0 0 0"/>
+          <inertia
+            ixx="0.002079" ixy="0.0" ixz="0.0"
+            iyy="0.002079" iyz="0.0"
+            izz="0.004158"/>
+        </inertial>
         <visual>
           <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
           <geometry>
@@ -59,6 +75,14 @@
     </xacro:if>
 
     <link name="${link_prefix}base_link">
+      <inertial>
+        <mass value="3.0"/>
+        <origin xyz="-0.019662 0.011643 -0.031802"/>
+        <inertia
+          ixx="0.02" ixy="0.001177" ixz="-0.0008871"
+          iyy="0.02" iyz="0.0002226"
+          izz="0.03"/>
+      </inertial>
       <visual>
         <origin xyz="-0.074211 0 -0.031076" rpy="0 0 ${pi/2}"/>
         <geometry>
@@ -117,7 +141,7 @@
       <child link="${link_prefix}wheel_fl_link"/>
       <axis xyz="0 1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/>
+      <dynamics friction="0.5" damping="0.2"/>
     </joint>
 
     <joint name="${joint_prefix}wheel_rl_joint" type="continuous">      
@@ -126,7 +150,7 @@
       <child link="${link_prefix}wheel_rl_link"/>
       <axis xyz="0 1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/>
+      <dynamics friction="0.5" damping="0.2"/>
     </joint>
 
     <joint name="${joint_prefix}wheel_fr_joint" type="continuous">
@@ -135,7 +159,7 @@
       <child link="${link_prefix}wheel_fr_link"/>
       <axis xyz="0 -1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/>
+      <dynamics friction="0.5" damping="0.2"/>
     </joint>
 
     <joint name="${joint_prefix}wheel_rr_joint" type="continuous">
@@ -144,7 +168,7 @@
       <child link="${link_prefix}wheel_rr_link"/>
       <axis xyz="0 -1 0"/>
       <limit effort="2.0" velocity="6.0"/>
-      <dynamics friction="0.3125" damping="0.1"/> 
+      <dynamics friction="0.5" damping="0.2"/> 
     </joint>
 
     <joint name="${joint_prefix}imu_joint" type="fixed">
@@ -159,6 +183,424 @@
       <child link="${link_prefix}mounting_plate_frame"/>
     </joint>
 
+  </xacro:macro>
+
+  <!-- RAPH GAZEBO -->
+
+  <xacro:macro name="raph_gazebo"
+               params="robot_ns:=''">
+
+    <xacro:property name="link_prefix" value=""/>
+    <xacro:property name="joint_prefix" value=""/>
+    <xacro:if value="${robot_ns != '' and robot_ns != '/'}">
+      <xacro:property name="link_prefix" value="${robot_ns}/"/>
+      <xacro:property name="joint_prefix" value="${robot_ns}/"/>
+    </xacro:if>
+
+    <!-- base ODE properties -->
+    <gazebo reference="${link_prefix}base_footprint">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.3</mu>
+              <mu2>0.3</mu2>
+            </ode>
+            <bullet>
+              <friction>0.3</friction>
+              <friction2>0.3</friction2>
+              <rolling_friction>0.1</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <gazebo reference="${link_prefix}base_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.3</mu>
+              <mu2>0.3</mu2>
+            </ode>
+            <bullet>
+              <friction>0.3</friction>
+              <friction2>0.3</friction2>
+              <rolling_friction>0.1</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <!-- servo ODE properties -->
+    <gazebo reference="${link_prefix}servo_l_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.3</mu>
+              <mu2>0.3</mu2>
+            </ode>
+            <bullet>
+              <friction>0.3</friction>
+              <friction2>0.3</friction2>
+              <rolling_friction>0.1</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <gazebo reference="${link_prefix}servo_r_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.3</mu>
+              <mu2>0.3</mu2>
+            </ode>
+            <bullet>
+              <friction>0.3</friction>
+              <friction2>0.3</friction2>
+              <rolling_friction>0.1</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <!-- wheel ODE properties -->
+    <gazebo reference="${link_prefix}wheel_fl_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
+            </ode>
+            <bullet>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <gazebo reference="${link_prefix}wheel_fr_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
+            </ode>
+            <bullet>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <gazebo reference="${link_prefix}wheel_rl_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
+            </ode>
+            <bullet>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <gazebo reference="${link_prefix}wheel_rr_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>2.0</mu>
+              <mu2>2.0</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
+            </ode>
+            <bullet>
+              <friction>2.0</friction>
+              <friction2>2.0</friction2>
+              <rolling_friction>0.2</rolling_friction>
+            </bullet>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <!-- Joint state publisher -->
+    <gazebo>
+      <plugin
+        filename="libgz-sim-joint-state-publisher-system.so"
+        name="gz::sim::systems::JointStatePublisher">
+        <topic>${link_prefix}joint_states</topic>
+      </plugin>
+    </gazebo>
+
+    <!-- TODO adjust sensor configurations -->
+    <!-- RPLidar S3 sensor -->
+    <gazebo reference="laser_frame">
+      <sensor name="rplidar_s3" type="gpu_lidar">
+        <visualize>true</visualize>
+        <update_rate>15</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.10</min>
+            <max>25.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+        <topic>${link_prefix}scan_raw</topic>
+        <gz_frame_id>${link_prefix}laser_frame</gz_frame_id>
+      </sensor>
+    </gazebo>
+
+    <!-- OAK-D Pro W RGB camera -->
+    <gazebo reference="${link_prefix}oak_rgb_camera_frame">
+      <sensor name="oak_rgb_camera" type="camera">
+        <camera name="oak_rgb">
+          <horizontal_fov>1.204</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>${link_prefix}oak/rgb/image_raw</topic>
+        <gz_frame_id>${link_prefix}oak_rgb_camera_optical_frame</gz_frame_id>
+      </sensor>
+    </gazebo>
+
+    <!-- OAK-D Pro W Depth camera -->
+    <gazebo reference="${link_prefix}oak_rgb_camera_frame">
+      <sensor name="oak_depth_camera" type="depth_camera">
+        <camera name="oak_depth">
+          <horizontal_fov>1.204</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>15</update_rate>
+        <visualize>true</visualize>
+        <topic>${link_prefix}oak/depth/image_raw</topic>
+        <gz_frame_id>${link_prefix}oak_right_camera_frame</gz_frame_id>
+      </sensor>
+    </gazebo>
+
+    <!-- IMU sensor -->
+    <gazebo reference="${link_prefix}imu_frame">
+      <sensor type="imu" name="raph_imu_sensor">
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>${link_prefix}controller/imu</topic>
+        <always_on>1</always_on>
+        <gz_frame_id>${link_prefix}imu_frame</gz_frame_id>
+      </sensor>
+    </gazebo>
+
+    <gazebo>
+      <plugin
+        filename="libraph_gz_steering_system.so"
+        name="raph_gz_plugins::RaphSteeringSystem">
+        <robot_namespace>${link_prefix}</robot_namespace>
+        <wheelbase>0.378</wheelbase>
+        <max_steering_angle>1.08</max_steering_angle>
+        <turn_in_place_angle>1.10082</turn_in_place_angle>
+        <max_wheel_speed>1.52</max_wheel_speed>
+        <track_width>0.384</track_width>
+        <wheel_radius>0.08</wheel_radius>
+
+        <left_steering_joint>${joint_prefix}servo_l_joint</left_steering_joint>
+        <right_steering_joint>${joint_prefix}servo_r_joint</right_steering_joint>
+        <left_steering_wheel_joint>${joint_prefix}wheel_rl_joint</left_steering_wheel_joint>
+        <right_steering_wheel_joint>${joint_prefix}wheel_rr_joint</right_steering_wheel_joint>
+        <left_drive_wheel_joint>${joint_prefix}wheel_fl_joint</left_drive_wheel_joint>
+        <right_drive_wheel_joint>${joint_prefix}wheel_fr_joint</right_drive_wheel_joint>
+
+        <left_steering_joint_topic>/${joint_prefix}servo_l_joint/cmd_pos</left_steering_joint_topic>
+        <right_steering_joint_topic>/${joint_prefix}servo_r_joint/cmd_pos</right_steering_joint_topic>
+        <left_steering_wheel_topic>/${joint_prefix}wheel_rl_joint/cmd_vel</left_steering_wheel_topic>
+        <right_steering_wheel_topic>/${joint_prefix}wheel_rr_joint/cmd_vel</right_steering_wheel_topic>
+        <left_drive_wheel_topic>/${joint_prefix}wheel_fl_joint/cmd_vel</left_drive_wheel_topic>
+        <right_drive_wheel_topic>/${joint_prefix}wheel_fr_joint/cmd_vel</right_drive_wheel_topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>${joint_prefix}servo_l_joint</joint_name>
+        <topic>/${joint_prefix}servo_l_joint/cmd_pos</topic>
+        <use_velocity_commands>true</use_velocity_commands>
+        <cmd_max>3.0</cmd_max>
+        <cmd_min>-3.0</cmd_min>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>${joint_prefix}servo_r_joint</joint_name>
+        <topic>/${joint_prefix}servo_r_joint/cmd_pos</topic>
+
+        <use_velocity_commands>true</use_velocity_commands>
+        <cmd_max>3.0</cmd_max>
+        <cmd_min>-3.0</cmd_min>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_rl_joint</joint_name>
+        <topic>/${joint_prefix}wheel_rl_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_rr_joint</joint_name>
+        <topic>/${joint_prefix}wheel_rr_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_fl_joint</joint_name>
+        <topic>/${joint_prefix}wheel_fl_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>${joint_prefix}wheel_fr_joint</joint_name>
+        <topic>/${joint_prefix}wheel_fr_joint/cmd_vel</topic>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="libraph_gz_lidar_filter_plugin.so" name="raph_gz_plugins::LidarAngleFilter">
+        <input_topic>${link_prefix}scan_raw</input_topic>
+        <output_topic>${link_prefix}scan</output_topic>
+        <filter_ranges>
+          <range>
+            <min>2.45582</min>
+            <max>2.6529</max>
+          </range>
+          <range>
+            <min>2.87979</min>
+            <max>2.9147</max>
+          </range>
+          <range>
+            <min>-2.9147</min>
+            <max>-2.87979</max>
+          </range>
+          <range>
+            <min>-2.6529</min>
+            <max>-2.45582</max>
+          </range>
+        </filter_ranges>
+      </plugin>
+    </gazebo>
+
+    <!--Odometry publisher-->
+    <gazebo>
+      <plugin
+        filename="gz-sim-odometry-publisher-system"
+        name="gz::sim::systems::OdometryPublisher">
+        <odom_frame>${link_prefix}odom</odom_frame>
+        <robot_base_frame>${link_prefix}base_footprint</robot_base_frame>
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>${link_prefix}controller/odom</odom_topic>
+        <tf_topic>/tf</tf_topic>
+        <gaussian_noise>0.001</gaussian_noise>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="raph_sim" 
+               params="fixed:=false
+                       robot_ns:=''">
+
+    <xacro:property name="link_prefix" value=""/>
+    <xacro:property name="joint_prefix" value=""/>
+    <xacro:if value="${robot_ns != '' and robot_ns != '/'}">
+      <xacro:property name="link_prefix" value="${robot_ns}/"/>
+      <xacro:property name="joint_prefix" value="${robot_ns}/"/>
+    </xacro:if>
+
+    <xacro:raph link_prefix="${link_prefix}" joint_prefix="${joint_prefix}"/>
+
+    <xacro:raph_gazebo robot_ns="${robot_ns}"/>
+
+    <xacro:if value="${fixed}">
+      <link name="world"/>
+      <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="${link_prefix}base_footprint"/>
+        <origin xyz="0.0 0.0 1.0"/>
+      </joint>
+    </xacro:if>
+  
   </xacro:macro>
 
 </robot>
