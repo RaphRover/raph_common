@@ -2,8 +2,8 @@
 Changelog for package raph_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.1 (2025-12-05)
+------------------
 * Urdf for simulation (`#7 <https://github.com/Rapha-Rover/rapha_common/issues/7>`_)
 * Contributors: Jan Hernas, Błażej Sowa
 
