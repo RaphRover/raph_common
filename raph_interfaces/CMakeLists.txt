@@ -8,6 +8,7 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/BatteryMode.msg"
   "msg/BatteryState.msg"
+  "msg/DrivetrainState.msg"
   "msg/ImuDiagnostics.msg"
   "msg/Led.msg"
   "msg/LedColor.msg"
