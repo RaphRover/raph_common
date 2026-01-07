@@ -3,5 +3,5 @@
 # Current steering mode.
 raph_interfaces/SteeringMode steering_mode
 
-# Current calibration status.
-bool calibration_status
+# Indicates if the servos are calibrated.
+bool is_servos_calibrated
