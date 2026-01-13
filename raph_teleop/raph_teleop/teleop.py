@@ -166,7 +166,7 @@ class RaphTeleop(Node):
             self.drivetrain_state
             == DrivetrainState.OPERATING_STATE_CHANGING_STEERING_MODE
         ):
-            self.get_logger().warn("Steering mode change already in progress")
+            self.get_logger().warning("Steering mode change already in progress")
             return
 
         if not self.set_steering_mode_client.service_is_ready():
@@ -202,7 +202,7 @@ class RaphTeleop(Node):
             self.drivetrain_state
             == DrivetrainState.OPERATING_STATE_CALIBRATING_SERVOS
         ):
-            self.get_logger().warn("Controller is already calibrating servos")
+            self.get_logger().warning("Controller is already calibrating servos")
             return
 
         if not self.calibrate_servos_client.service_is_ready():
