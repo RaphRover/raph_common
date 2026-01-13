@@ -47,7 +47,6 @@ class RaphTeleop(Node):
         self.drivetrain_state: int = (
             DrivetrainState.OPERATING_STATE_DISABLED
         )
-        self.servos_calibrated = False
 
         self.prev_change_mode_pressed = False
         self.prev_calibrate_servos_pressed = False
@@ -228,7 +227,6 @@ class RaphTeleop(Node):
     def drivetrain_state_callback(self, msg: DrivetrainState) -> None:
         self.current_steering_mode = msg.steering_mode.data
         self.drivetrain_state = msg.operating_state
-        self.servos_calibrated = msg.is_servos_calibrated
 
     def joy_callback(self, data: Joy) -> None:
         change_mode_pressed = data.buttons[self.button_change_steering_mode] == 1
