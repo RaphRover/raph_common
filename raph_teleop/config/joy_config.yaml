@@ -6,15 +6,20 @@ joy_linux_node:
 
 raph_teleop:
   ros__parameters:
-    acceleration: 2.0
+    ackermann_acceleration: 2.0
+    turn_in_place_acceleration: 4.0
     steering_angle_velocity: 2.0
     axis_speed: 1
     scale_speed: 0.5
     axis_steer: 3
+    axis_turn_in_place: 0
     scale_steer: 1.1
+    scale_turn_in_place: 1.5
     button_deadman: 5
     button_change_steering_mode: 1
-    button_calibrate_servos: 0
+    button_calibrate_servos: 2
     button_turbo: 4
     turbo_scale_speed: 1.5
-    turbo_acceleration: 4.0
+    turbo_scale_turn_in_place: 3.0
+    turbo_ackermann_acceleration: 4.0
+    turbo_turn_in_place_acceleration: 6.0
