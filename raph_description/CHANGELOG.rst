@@ -2,6 +2,12 @@
 Changelog for package raph_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix: IMU frame orientation for upside-down camera setup (`#16 <https://github.com/Rapha-Rover/rapha_common/issues/16>`_)
+* feat: Add oak_stereo_camera_optical_frame to URDF (`#14 <https://github.com/Rapha-Rover/rapha_common/issues/14>`_)
+* Contributors: Błażej Sowa
+
 1.0.1 (2025-12-05)
 ------------------
 * Urdf for simulation (`#7 <https://github.com/Rapha-Rover/rapha_common/issues/7>`_)

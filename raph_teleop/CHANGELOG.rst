@@ -2,6 +2,11 @@
 Changelog for package raph_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* feat: New turn in place steering adjustments for joy teleop (`#12 <https://github.com/Rapha-Rover/rapha_common/issues/12>`_)
+* Contributors: Jan Hernas
+
 1.0.1 (2025-12-05)
 ------------------
 * Urdf for simulation (`#7 <https://github.com/Rapha-Rover/rapha_common/issues/7>`_)
