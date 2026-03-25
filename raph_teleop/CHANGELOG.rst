@@ -2,8 +2,8 @@
 Changelog for package raph_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.0 (2026-03-25)
+------------------
 * feat: New turn in place steering adjustments for joy teleop (`#12 <https://github.com/Rapha-Rover/rapha_common/issues/12>`_)
 * Contributors: Jan Hernas
 
