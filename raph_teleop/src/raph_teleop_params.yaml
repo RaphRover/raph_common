@@ -4,8 +4,7 @@ raph_teleop_params:
     default_value: 2.0
     description: "Target acceleration for Ackermann steering mode (m/s^2)"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [10.0]
+      bounds<>: [0.001, 10.0]
   ackermann_jerk:
     type: double
     default_value: 16.0
@@ -17,15 +16,13 @@ raph_teleop_params:
     default_value: 2.0
     description: "Target acceleration for turn-in-place mode (rad/s^2)"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [10.0]
+      bounds<>: [0.001, 10.0]
   steering_angle_velocity:
     type: double
     default_value: 2.0
     description: "Target velocity for steering angle changes (rad/s)"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [10.0]
+      bounds<>: [0.001, 10.0]
   axis_speed:
     type: int
     default_value: 1
@@ -73,47 +70,40 @@ raph_teleop_params:
     default_value: 1.0
     description: "Scaling factor for speed control"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [2.0]
+      bounds<>: [0.001, 2.0]
   scale_steer:
     type: double
     default_value: 1.1
     description: "Scaling factor for steering control"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [1.15]
+      bounds<>: [0.001, 1.15]
   scale_turn_in_place:
     type: double
     default_value: 1.1
     description: "Scaling factor for turn-in-place control"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [5.0]
+      bounds<>: [0.001, 5.0]
   turbo_ackermann_acceleration:
     type: double
     default_value: 4.0
     description: "Target acceleration for Ackermann steering mode in turbo mode (m/s^2)"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [10.0]
+      bounds<>: [0.001, 10.0]
   turbo_turn_in_place_acceleration:
     type: double
     default_value: 4.0
     description: "Target acceleration for turn-in-place mode in turbo mode (rad/s^2)"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [10.0]
+      bounds<>: [0.001, 10.0]
   turbo_scale_speed:
     type: double
     default_value: 1.5
     description: "Scaling factor for speed control in turbo mode"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [2.0]
+      bounds<>: [0.001, 2.0]
   turbo_scale_turn_in_place:
     type: double
     default_value: 1.5
     description: "Scaling factor for turn-in-place control in turbo mode"
     validation:
-      gt<>: [0.0]
-      lt_eq<>: [5.0]
+      bounds<>: [0.001, 5.0]
