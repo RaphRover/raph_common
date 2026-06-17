@@ -138,6 +138,28 @@ class RaphTeleop(Node):
         self.drivetrain_state = msg.operating_state
 
     def joy_callback(self, data: Joy) -> None:
+        if len(data.buttons) <= max(
+            self.params.button_change_steering_mode,
+            self.params.button_calibrate_servos,
+            self.params.button_deadman,
+            self.params.button_turbo,
+        ):
+            self.get_logger().error(
+                "Received Joy message with insufficient buttons: "
+                f"{len(data.buttons)} buttons received."
+            )
+            return
+
+        if len(data.axes) <= max(
+            self.params.axis_speed,
+            self.params.axis_steer,
+            self.params.axis_turn_in_place,
+        ):
+            self.get_logger().error(
+                f"Received Joy message with insufficient axes: {len(data.axes)} axes received."
+            )
+            return
+
         change_mode_pressed = data.buttons[self.params.button_change_steering_mode] == 1
         calibrate_pressed = data.buttons[self.params.button_calibrate_servos] == 1
 
