@@ -3,6 +3,11 @@ project(raph_teleop)
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(generate_parameter_library REQUIRED)
+
+generate_parameter_module(raph_teleop_params
+  src/raph_teleop_params.yaml
+)
 
 ament_python_install_package(${PROJECT_NAME})
 
