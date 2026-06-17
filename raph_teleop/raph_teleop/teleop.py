@@ -32,7 +32,7 @@ from std_srvs.srv import Trigger
 class RaphTeleop(Node):
 
     def __init__(self) -> None:
-        super().__init__("raph_teleop", start_parameter_services=False)
+        super().__init__("raph_teleop")
 
         self.params_listener = raph_teleop_params.ParamListener(self)
         self.params = self.params_listener.get_params()
