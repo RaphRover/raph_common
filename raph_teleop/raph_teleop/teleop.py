@@ -21,6 +21,7 @@
 from ackermann_msgs.msg import AckermannDrive
 from raph_interfaces.msg import DrivetrainState, SteeringMode, TurnInPlaceDrive
 from raph_interfaces.srv import SetSteeringMode
+from raph_teleop.raph_teleop_params import raph_teleop_params
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile
 from rclpy.task import Future
@@ -31,9 +32,13 @@ from std_srvs.srv import Trigger
 class RaphTeleop(Node):
 
     def __init__(self) -> None:
-        super().__init__("raph_teleop", start_parameter_services=False)
+        super().__init__("raph_teleop")
 
-        self.retrieve_parameters()
+        self.params_listener = raph_teleop_params.ParamListener(self)
+        self.params = self.params_listener.get_params()
+        self.params_listener.set_user_callback(
+            lambda params: setattr(self, "params", params)
+        )
 
         self.set_steering_mode_client = self.create_client(
             SetSteeringMode, "controller/set_steering_mode"
@@ -44,9 +49,7 @@ class RaphTeleop(Node):
 
         self.current_steering_mode: int = SteeringMode.ACKERMANN
         self.target_steering_mode: int = SteeringMode.ACKERMANN
-        self.drivetrain_state: int = (
-            DrivetrainState.OPERATING_STATE_DISABLED
-        )
+        self.drivetrain_state: int = DrivetrainState.OPERATING_STATE_DISABLED
 
         self.prev_change_mode_pressed = False
         self.prev_calibrate_servos_pressed = False
@@ -68,97 +71,6 @@ class RaphTeleop(Node):
             "controller/drivetrain_state",
             self.drivetrain_state_callback,
             qos_profile,
-        )
-
-    def retrieve_parameters(self) -> None:
-        self.declare_parameter("ackermann_acceleration", 2.0)
-        self.declare_parameter("turn_in_place_acceleration", 2.0)
-        self.declare_parameter("steering_angle_velocity", 2.0)
-        self.declare_parameter("axis_speed", 1)
-        self.declare_parameter("axis_steer", 3)
-        self.declare_parameter("axis_turn_in_place", 0)
-        self.declare_parameter("button_deadman", 5)
-        self.declare_parameter("button_change_steering_mode", 1)
-        self.declare_parameter("button_calibrate_servos", 0)
-        self.declare_parameter("button_turbo", 4)
-        self.declare_parameter("scale_speed", 1.0)
-        self.declare_parameter("scale_steer", 1.1)
-        self.declare_parameter("scale_turn_in_place", 1.1)
-        self.declare_parameter("turbo_ackermann_acceleration", 4.0)
-        self.declare_parameter("turbo_turn_in_place_acceleration", 4.0)
-        self.declare_parameter("turbo_scale_speed", 1.5)
-        self.declare_parameter("turbo_scale_turn_in_place", 1.5)
-
-        self.ackermann_acceleration = (
-            self.get_parameter("ackermann_acceleration")
-            .get_parameter_value()
-            .double_value
-        )
-        self.turn_in_place_acceleration = (
-            self.get_parameter("turn_in_place_acceleration")
-            .get_parameter_value()
-            .double_value
-        )
-        self.steering_angle_velocity = (
-            self.get_parameter("steering_angle_velocity")
-            .get_parameter_value()
-            .double_value
-        )
-        self.axis_speed = (
-            self.get_parameter("axis_speed").get_parameter_value().integer_value
-        )
-        self.axis_steer = (
-            self.get_parameter("axis_steer").get_parameter_value().integer_value
-        )
-        self.axis_turn_in_place = (
-            self.get_parameter("axis_turn_in_place")
-            .get_parameter_value()
-            .integer_value
-        )
-        self.button_deadman = (
-            self.get_parameter("button_deadman").get_parameter_value().integer_value
-        )
-        self.button_change_steering_mode = (
-            self.get_parameter("button_change_steering_mode")
-            .get_parameter_value()
-            .integer_value
-        )
-        self.button_calibrate_servos = (
-            self.get_parameter("button_calibrate_servos")
-            .get_parameter_value()
-            .integer_value
-        )
-        self.button_turbo = (
-            self.get_parameter("button_turbo").get_parameter_value().integer_value
-        )
-        self.scale_speed = (
-            self.get_parameter("scale_speed").get_parameter_value().double_value
-        )
-        self.scale_steer = (
-            self.get_parameter("scale_steer").get_parameter_value().double_value
-        )
-        self.scale_turn_in_place = (
-            self.get_parameter("scale_turn_in_place")
-            .get_parameter_value()
-            .double_value
-        )
-        self.turbo_ackermann_acceleration = (
-            self.get_parameter("turbo_ackermann_acceleration")
-            .get_parameter_value()
-            .double_value
-        )
-        self.turbo_turn_in_place_acceleration = (
-            self.get_parameter("turbo_turn_in_place_acceleration")
-            .get_parameter_value()
-            .double_value
-        )
-        self.turbo_scale_speed = (
-            self.get_parameter("turbo_scale_speed").get_parameter_value().double_value
-        )
-        self.turbo_scale_turn_in_place = (
-            self.get_parameter("turbo_scale_turn_in_place")
-            .get_parameter_value()
-            .double_value
         )
 
     def change_steering_mode(self) -> None:
@@ -198,10 +110,7 @@ class RaphTeleop(Node):
             self.current_steering_mode = self.target_steering_mode
 
     def calibrate_servos(self) -> None:
-        if (
-            self.drivetrain_state
-            == DrivetrainState.OPERATING_STATE_CALIBRATING_SERVOS
-        ):
+        if self.drivetrain_state == DrivetrainState.OPERATING_STATE_CALIBRATING_SERVOS:
             self.get_logger().warning("Controller is already calibrating servos")
             return
 
@@ -229,15 +138,39 @@ class RaphTeleop(Node):
         self.drivetrain_state = msg.operating_state
 
     def joy_callback(self, data: Joy) -> None:
-        change_mode_pressed = data.buttons[self.button_change_steering_mode] == 1
-        calibrate_pressed = data.buttons[self.button_calibrate_servos] == 1
+        if len(data.buttons) <= max(
+            self.params.button_change_steering_mode,
+            self.params.button_calibrate_servos,
+            self.params.button_deadman,
+            self.params.button_turbo,
+        ):
+            self.get_logger().error(
+                "Received Joy message with insufficient buttons: "
+                f"{len(data.buttons)} buttons received."
+            )
+            return
+
+        if len(data.axes) <= max(
+            self.params.axis_speed,
+            self.params.axis_steer,
+            self.params.axis_turn_in_place,
+        ):
+            self.get_logger().error(
+                f"Received Joy message with insufficient axes: {len(data.axes)} axes received."
+            )
+            return
+
+        change_mode_pressed = data.buttons[self.params.button_change_steering_mode] == 1
+        calibrate_pressed = data.buttons[self.params.button_calibrate_servos] == 1
 
         drivetrain_busy = self.drivetrain_state in (
             DrivetrainState.OPERATING_STATE_CHANGING_STEERING_MODE,
             DrivetrainState.OPERATING_STATE_CALIBRATING_SERVOS,
         )
 
-        should_calibrate_servos = calibrate_pressed and not self.prev_calibrate_servos_pressed
+        should_calibrate_servos = (
+            calibrate_pressed and not self.prev_calibrate_servos_pressed
+        )
         should_change_mode = change_mode_pressed and not self.prev_change_mode_pressed
 
         self.prev_change_mode_pressed = change_mode_pressed
@@ -254,27 +187,27 @@ class RaphTeleop(Node):
             self.calibrate_servos()
             return
 
-        deadman_active = data.buttons[self.button_deadman] == 1
+        deadman_active = data.buttons[self.params.button_deadman] == 1
 
         if not deadman_active and not self.deadman_pressed:
             return
 
-        turbo = data.buttons[self.button_turbo] == 1
+        turbo = data.buttons[self.params.button_turbo] == 1
 
         if self.current_steering_mode == SteeringMode.TURN_IN_PLACE:
             acceleration = (
-                self.turbo_turn_in_place_acceleration
+                self.params.turbo_turn_in_place_acceleration
                 if turbo
-                else self.turn_in_place_acceleration
+                else self.params.turn_in_place_acceleration
             )
             self.publish_turn_in_place_command(
                 deadman_active, data, acceleration, turbo
             )
         else:
             acceleration = (
-                self.turbo_ackermann_acceleration
+                self.params.turbo_ackermann_acceleration
                 if turbo
-                else self.ackermann_acceleration
+                else self.params.ackermann_acceleration
             )
             self.publish_ackermann_command(deadman_active, data, acceleration, turbo)
 
@@ -283,12 +216,17 @@ class RaphTeleop(Node):
     ) -> None:
         cmd = AckermannDrive()
         cmd.acceleration = acceleration
-        cmd.steering_angle_velocity = self.steering_angle_velocity
+        cmd.jerk = self.params.ackermann_jerk
+        cmd.steering_angle_velocity = self.params.steering_angle_velocity
 
         if deadman_active:
-            speed_scale = self.turbo_scale_speed if turbo else self.scale_speed
-            cmd.speed = joy.axes[self.axis_speed] * speed_scale
-            cmd.steering_angle = joy.axes[self.axis_steer] * self.scale_steer
+            speed_scale = (
+                self.params.turbo_scale_speed if turbo else self.params.scale_speed
+            )
+            cmd.speed = joy.axes[self.params.axis_speed] * speed_scale
+            cmd.steering_angle = (
+                joy.axes[self.params.axis_steer] * self.params.scale_steer
+            )
             self.deadman_pressed = True
         else:
             cmd.speed = 0.0
@@ -304,10 +242,14 @@ class RaphTeleop(Node):
         cmd.acceleration = acceleration
 
         angular_scale = (
-            self.turbo_scale_turn_in_place if turbo else self.scale_turn_in_place
+            self.params.turbo_scale_turn_in_place
+            if turbo
+            else self.params.scale_turn_in_place
         )
         if deadman_active:
-            cmd.angular_velocity = joy.axes[self.axis_turn_in_place] * angular_scale
+            cmd.angular_velocity = (
+                joy.axes[self.params.axis_turn_in_place] * angular_scale
+            )
             self.deadman_pressed = True
         else:
             cmd.angular_velocity = 0.0

@@ -1,0 +1,109 @@
+raph_teleop_params:
+  ackermann_acceleration:
+    type: double
+    default_value: 2.0
+    description: "Target acceleration for Ackermann steering mode (m/s^2)"
+    validation:
+      bounds<>: [0.001, 10.0]
+  ackermann_jerk:
+    type: double
+    default_value: 16.0
+    description: "Target jerk for Ackermann steering mode (m/s^3), set to 0.0 to disable jerk limiting"
+    validation:
+      bounds<>: [0.0, 100.0]
+  turn_in_place_acceleration:
+    type: double
+    default_value: 2.0
+    description: "Target acceleration for turn-in-place mode (rad/s^2)"
+    validation:
+      bounds<>: [0.001, 10.0]
+  steering_angle_velocity:
+    type: double
+    default_value: 2.0
+    description: "Target velocity for steering angle changes (rad/s)"
+    validation:
+      bounds<>: [0.001, 10.0]
+  axis_speed:
+    type: int
+    default_value: 1
+    description: "Joystick axis index for controlling speed"
+    validation:
+      gt_eq<>: [0]
+  axis_steer:
+    type: int
+    default_value: 3
+    description: "Joystick axis index for controlling steering angle"
+    validation:
+      gt_eq<>: [0]
+  axis_turn_in_place:
+    type: int
+    default_value: 0
+    description: "Joystick axis index for controlling turn-in-place rotation"
+    validation:
+      gt_eq<>: [0]
+  button_deadman:
+    type: int
+    default_value: 5
+    description: "Joystick button index for enabling teleoperation (deadman switch)"
+    validation:
+      gt_eq<>: [0]
+  button_change_steering_mode:
+    type: int
+    default_value: 1
+    description: "Joystick button index for toggling between Ackermann and turn-in-place steering modes"
+    validation:
+      gt_eq<>: [0]
+  button_calibrate_servos:
+    type: int
+    default_value: 0
+    description: "Joystick button index for calibrating servos"
+    validation:
+      gt_eq<>: [0]
+  button_turbo:
+    type: int
+    default_value: 4
+    description: "Joystick button index for activating turbo mode"
+    validation:
+      gt_eq<>: [0]
+  scale_speed:
+    type: double
+    default_value: 1.0
+    description: "Scaling factor for speed control"
+    validation:
+      bounds<>: [0.001, 2.0]
+  scale_steer:
+    type: double
+    default_value: 1.1
+    description: "Scaling factor for steering control"
+    validation:
+      bounds<>: [0.001, 1.15]
+  scale_turn_in_place:
+    type: double
+    default_value: 1.1
+    description: "Scaling factor for turn-in-place control"
+    validation:
+      bounds<>: [0.001, 5.0]
+  turbo_ackermann_acceleration:
+    type: double
+    default_value: 4.0
+    description: "Target acceleration for Ackermann steering mode in turbo mode (m/s^2)"
+    validation:
+      bounds<>: [0.001, 10.0]
+  turbo_turn_in_place_acceleration:
+    type: double
+    default_value: 4.0
+    description: "Target acceleration for turn-in-place mode in turbo mode (rad/s^2)"
+    validation:
+      bounds<>: [0.001, 10.0]
+  turbo_scale_speed:
+    type: double
+    default_value: 1.5
+    description: "Scaling factor for speed control in turbo mode"
+    validation:
+      bounds<>: [0.001, 2.0]
+  turbo_scale_turn_in_place:
+    type: double
+    default_value: 1.5
+    description: "Scaling factor for turn-in-place control in turbo mode"
+    validation:
+      bounds<>: [0.001, 5.0]

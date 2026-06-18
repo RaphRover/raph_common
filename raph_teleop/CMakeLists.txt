@@ -3,6 +3,11 @@ project(raph_teleop)
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(generate_parameter_library REQUIRED)
+
+generate_parameter_module(raph_teleop_params
+  src/raph_teleop_params.yaml
+)
 
 ament_python_install_package(${PROJECT_NAME})
 
@@ -20,20 +25,12 @@ install(
 )
 
 if(BUILD_TESTING)
-  # find_package(ament_cmake_black REQUIRED)
-  # ament_black()
+  find_package(ament_lint_auto REQUIRED)
 
-  find_package(ament_cmake_copyright REQUIRED)
-  ament_copyright()
+  # Set local config that's compatible with black formatter
+  set(ament_cmake_flake8_CONFIG_FILE "ament_flake8.ini")
 
-  find_package(ament_cmake_flake8 REQUIRED)
-  ament_flake8(CONFIG_FILE "ament_flake8.ini")
-
-  find_package(ament_cmake_lint_cmake)
-  ament_lint_cmake()
-
-  find_package(ament_cmake_xmllint REQUIRED)
-  ament_xmllint()
+  ament_lint_auto_find_test_dependencies()
 endif()
 
 ament_package()
