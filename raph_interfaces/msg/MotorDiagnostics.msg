@@ -30,3 +30,9 @@ uint8[6] fault_mask_active
 
 # Mask of all fault that occurred since the robot was powered on.
 uint8[6] fault_mask_occurred
+
+# Current communication fault status for each motor.
+bool[6] communication_fault_active
+
+# All communication faults that have occurred since the robot was powered on.
+bool[6] communication_fault_occurred
