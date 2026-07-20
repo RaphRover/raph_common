@@ -3,10 +3,10 @@
 # The order of the motors is:
 #   - rear left wheel
 #   - rear right wheel
-#   - right servo
-#   - left servo
 #   - front left wheel
 #   - front right wheel
+#   - right servo
+#   - left servo
 
 std_msgs/Header header
 
