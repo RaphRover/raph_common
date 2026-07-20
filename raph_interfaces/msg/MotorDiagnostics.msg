@@ -5,8 +5,8 @@
 #   - rear right wheel
 #   - front left wheel
 #   - front right wheel
-#   - right servo
 #   - left servo
+#   - right servo
 
 std_msgs/Header header
 
