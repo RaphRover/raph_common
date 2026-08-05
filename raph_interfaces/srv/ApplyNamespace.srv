@@ -1,0 +1,4 @@
+string<=50 robot_namespace
+---
+bool success
+string status_message

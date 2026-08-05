@@ -22,6 +22,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/SteeringMode.msg"
   "msg/TurnInPlaceDrive.msg"
   "msg/WheelCommand.msg"
+  "srv/ApplyNamespace.srv"
   "srv/GetControllerInfo.srv"
   "srv/GetOsVersion.srv"
   "srv/SetBatteryModes.srv"
