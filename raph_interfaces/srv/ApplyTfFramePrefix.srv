@@ -1,4 +1,4 @@
-string<=50 robot_namespace
+string<=50 tf_frame_prefix
 ---
 bool success
 string status_message
