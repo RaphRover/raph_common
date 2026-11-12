@@ -1,0 +1,15 @@
+# Start a fresh asynchronous check; otherwise return the latest status.
+bool refresh
+---
+# up_to_date, update_available, running_newer, incomparable, or unavailable
+string status
+string current_version
+# Version of the image bundled with the installed raph_fw package, not a remote release.
+string target_version
+bool checking
+# Unix timestamp of the last completed check; zero before the first check.
+int64 checked_at
+# Error details when status is unavailable.
+string status_message
+string update_command
+string update_instructions

@@ -24,6 +24,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/WheelCommand.msg"
   "srv/ApplyTfFramePrefix.srv"
   "srv/GetControllerInfo.srv"
+  "srv/GetFirmwareStatus.srv"
   "srv/GetOsVersion.srv"
   "srv/SetBatteryModes.srv"
   "srv/SetLeds.srv"
